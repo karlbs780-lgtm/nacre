@@ -17,8 +17,19 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
-      - run: gradle assembleDebug --stacktrace
+      - name: Compiler l'APK
+        run: |
+          FILE=$(find . -name settings.gradle.kts | head -n 1)
+          if [ -z "$FILE" ]; then
+            echo "settings.gradle.kts introuvable. Contenu du dépôt :"
+            find . -maxdepth 3 -not -path './.git/*'
+            exit 1
+          fi
+          DIR=$(dirname "$FILE")
+          echo "Projet trouvé dans : $DIR"
+          cd "$DIR"
+          gradle assembleDebug --stacktrace
       - uses: actions/upload-artifact@v4
         with:
           name: nacre-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: '**/build/outputs/apk/debug/app-debug.apk'
