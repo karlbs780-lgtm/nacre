@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+# Lightweight Gradle bootstrap. Requires JDK 17, curl and unzip. No bundled binary wrapper.
+set -eu
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+VERSION=8.9
+SHA=d725d707bfabd4dfdc958c624003b3c80accc03f7037b5122c4b1d0ef15cecab
+BASE="${GRADLE_USER_HOME:-$HOME/.gradle}/nacre-bootstrap/$VERSION"
+BIN="$BASE/gradle-$VERSION/bin/gradle"
+if [ ! -f "$BIN" ]; then
+    mkdir -p "$BASE"
+    ZIP="$BASE/gradle-$VERSION-bin.zip"
+    curl -fL --retry 2 "https://services.gradle.org/distributions/gradle-$VERSION-bin.zip" -o "$ZIP"
+    if command -v sha256sum >/dev/null 2>&1; then
+        echo "$SHA  $ZIP" | sha256sum -c -
+    else
+        echo "$SHA  $ZIP" | shasum -a 256 -c -
+    fi
+    unzip -q -o "$ZIP" -d "$BASE"
+fi
+exec sh "$BIN" -p "$ROOT" "$@"

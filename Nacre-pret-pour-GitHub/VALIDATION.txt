@@ -1,0 +1,25 @@
+NACRE — VALIDATION FINALE DES SOURCES
+Date : 31 octobre 2026
+
+
+Kotlin PSI: 22 files; 0 syntax error(s). No Android/API type-check performed.
+
+
+JUnit version 4.13.2
+..............
+Time: 0.109
+
+OK (14 tests)
+
+
+XML : 3 fichiers bien formés. Manifest : permissions Internet/micro/tous fichiers absentes.
+
+Lanceur Unix : sh -n réussi. Le téléchargement/lancement de Gradle et le lanceur Windows ne sont pas exécutés.
+
+SQLite indépendant : 17 requêtes DAO compilées avec EXPLAIN ; unicité, transfert de références et cascade vérifiés. Ce contrôle ne lance ni Room ni Android.
+
+Sources avant ajout de ce rapport : 34 fichiers, 144024 octets.
+
+NON EXÉCUTÉS : construction Gradle/Android, résolution des types/API Android, génération KSP/Room, lint Android, tests instrumentés Room/Compose, lecture réelle, codecs, Bluetooth, notification/verrouillage, batterie, mémoire et FPS.
+Aucun APK fourni. Les cinq tests Room et le test Compose sont des tests à exécuter sur Android.
+Le test JVM utilise Track extrait des sources en retirant seulement les annotations Room, et les véritables fonctions LibraryRules.
